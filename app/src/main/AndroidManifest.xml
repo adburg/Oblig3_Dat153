@@ -21,6 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GalleryActivity"
+            android:exported="false"
+            android:label="Gallery" />
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false"
+            android:label="Quiz" />
     </application>
 
 </manifest>
