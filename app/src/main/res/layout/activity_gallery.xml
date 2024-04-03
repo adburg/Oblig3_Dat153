@@ -38,9 +38,12 @@
 
     <!-- Lister ut våre gallery elementer -->
     <androidx.recyclerview.widget.RecyclerView
+        android:padding="20dp"
         android:id="@+id/gallery_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/button_sort_az"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/button_add_entry"

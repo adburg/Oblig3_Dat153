@@ -1,6 +1,7 @@
 package com.example.oblig3_dat153.ui.gallery;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,13 +14,13 @@ import com.example.oblig3_dat153.R;
 public class GalleryViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageView;
-    ImageButton imageButton;
+    Button button;
     TextView imageText;
 
     public GalleryViewHolder(@NonNull View itemView) {
         super(itemView);
         imageView = itemView.findViewById(R.id.image_view);
-        imageButton = itemView.findViewById(R.id.delete_button);
+        button = itemView.findViewById(R.id.delete_button);
         imageText = itemView.findViewById(R.id.image_text);
     }
 }

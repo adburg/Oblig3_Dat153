@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
     // Interface for click events
     public interface OnItemClickListener {
         void onDeleteClick(PhotoEntry image);
+    }
+
+    public void setGalleryItems(List<PhotoEntry> galleryItems) {
+        this.galleryItems = galleryItems;
+        notifyDataSetChanged(); // Notify any registered observers that the data set has changed.
     }
 
     public GalleryAdapter(Context context, List<PhotoEntry> galleryItems, OnItemClickListener listener) {
@@ -61,11 +67,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
         holder.imageText.setText(imageEntry.getName());
 
         // Setter opp onClick
-        holder.imageButton.setOnClickListener(v -> listener.onDeleteClick(imageEntry));
+        holder.button.setOnClickListener(v -> listener.onDeleteClick(imageEntry));
     }
 
     @Override
     public int getItemCount() {
+        System.out.println("LIST IS " + galleryItems);
         return galleryItems.size();
     }
 }

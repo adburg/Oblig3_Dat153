@@ -7,19 +7,30 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
         android:layout_weight="1" />
 
-    <ImageButton
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_marginTop="40dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/image_text"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        android:text="Placeholder" />
+        <TextView
+            android:id="@+id/image_text"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:text="Placeholder" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Slett" />
+
+    </LinearLayout>
 
 </LinearLayout>
