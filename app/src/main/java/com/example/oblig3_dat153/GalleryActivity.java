@@ -30,7 +30,6 @@ import java.util.concurrent.Executors;
 
 public class GalleryActivity extends AppCompatActivity {
 
-    private AppDatabase db;
     private PhotoDAO dao;
     private GalleryAdapter adapter;
     private List<PhotoEntry> galleryItems;
@@ -42,7 +41,7 @@ public class GalleryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
 
         // DB and dao instantiate
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "photo-entry").build();
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "photo-entry").build();
         dao = db.photoDAO();
 
          // populateDb();
@@ -68,7 +67,6 @@ public class GalleryActivity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             dao.insert(entry);
-            adapter.notifyDataSetChanged();
         });
     }
 
@@ -97,12 +95,12 @@ public class GalleryActivity extends AppCompatActivity {
         dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
             @Override
             public void onChanged(List<PhotoEntry> photoEntries) {
-                // Sets current changes to object variable, for sorting functionality
+                // Sets current changes to objec
                 galleryItems = photoEntries;
 
                 // Update the adapter's dataset
                 adapter.setGalleryItems(photoEntries);
-                adapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -133,12 +131,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     public void setupExitButton() {
         Button exitButton = findViewById(R.id.button_save_exit);
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(GalleryActivity.this, MainActivity.class));
-            }
-        });
+        exitButton.setOnClickListener(v -> startActivity(new Intent(GalleryActivity.this, MainActivity.class)));
     }
 
     public void setupAddButton() {
@@ -147,34 +140,18 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     public void setupAzSort() {
-        Button az = findViewById(R.id.button_sort_za);
+        Button az = findViewById(R.id.button_sort_az);
         az.setOnClickListener(v -> {
-            Collections.sort(galleryItems, new Comparator<PhotoEntry>() {
-                @Override
-                public int compare(PhotoEntry item1, PhotoEntry item2) {
-                    // Compare the names of the gallery items alphabetically
-                    return item1.getName().compareTo(item2.getName());
-                }
-            });
-
+            Collections.sort(galleryItems, Comparator.comparing(PhotoEntry::getName));
             adapter.setGalleryItems(galleryItems);
-            adapter.notifyDataSetChanged();
         });
     }
 
     public void setupZaSort() {
-        Button za = findViewById(R.id.button_sort_az);
+        Button za = findViewById(R.id.button_sort_za);
         za.setOnClickListener(v -> {
-            Collections.sort(galleryItems, new Comparator<PhotoEntry>() {
-                @Override
-                public int compare(PhotoEntry item1, PhotoEntry item2) {
-                    // Compare the names of the gallery items alphabetically
-                    return item2.getName().compareTo(item1.getName());
-                }
-            });
-
+            Collections.sort(galleryItems, (item1, item2) -> item2.getName().compareTo(item1.getName()));
             adapter.setGalleryItems(galleryItems);
-            adapter.notifyDataSetChanged();
         });
     }
 
