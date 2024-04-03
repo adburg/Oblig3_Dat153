@@ -35,7 +35,6 @@ public class GalleryActivity extends AppCompatActivity {
     private GalleryAdapter adapter;
     private List<PhotoEntry> galleryItems;
     private ActivityResultLauncher<Intent> galleryLauncher;
-    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,8 @@ public class GalleryActivity extends AppCompatActivity {
         galleryLauncher.launch(galleryIntent);
     }
 
-    public void insertPhotoEntry(String name) {
-        PhotoEntry entry = new PhotoEntry(name, selectedImageUri.toString());
+    public void insertPhotoEntry(String name, String uri) {
+        PhotoEntry entry = new PhotoEntry(name, uri);
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             dao.insert(entry);
@@ -73,7 +72,7 @@ public class GalleryActivity extends AppCompatActivity {
         });
     }
 
-    private void showNameInputDialog() {
+    private void showNameInputDialog(Uri imageUri) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Enter Image Name");
 
@@ -83,7 +82,7 @@ public class GalleryActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
             String imageName = input.getText().toString();
             if (!imageName.isEmpty()) {
-                insertPhotoEntry(imageName);
+                insertPhotoEntry(imageName, imageUri.toString());
             }
         });
 
@@ -116,10 +115,10 @@ public class GalleryActivity extends AppCompatActivity {
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         // Resultatet fra imagePicker
-                        selectedImageUri = result.getData().getData();
+                        Uri selectedImageUri = result.getData().getData();
 
                         // Sender URI til input, for å hente navn til bilde
-                        showNameInputDialog();
+                        showNameInputDialog(selectedImageUri);
                     }
                 }
         );
