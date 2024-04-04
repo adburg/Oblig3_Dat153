@@ -1,4 +1,4 @@
-package com.example.oblig3_dat153;
+package com.example.oblig3_dat153.gallery;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import com.example.oblig3_dat153.gallery.GalleryAdapter;
+import com.example.oblig3_dat153.AppDatabase;
+import com.example.oblig3_dat153.MainActivity;
+import com.example.oblig3_dat153.PhotoDAO;
+import com.example.oblig3_dat153.PhotoEntry;
+import com.example.oblig3_dat153.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

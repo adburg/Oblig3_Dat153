@@ -25,11 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GalleryActivity"
+            android:name=".gallery.GalleryActivity"
             android:exported="false"
             android:label="Gallery" />
         <activity
-            android:name=".QuizActivity"
+            android:name=".quiz.QuizActivity"
             android:exported="false"
             android:label="Quiz" />
     </application>

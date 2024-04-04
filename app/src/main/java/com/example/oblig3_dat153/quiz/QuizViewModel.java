@@ -2,6 +2,7 @@ package com.example.oblig3_dat153.quiz;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.room.Room;
@@ -24,8 +25,8 @@ public class QuizViewModel extends ViewModel {
     private MutableLiveData<Integer> totalAttempts;
     private MutableLiveData<Integer> index;
 
-    public QuizViewModel (List<PhotoEntry> galleryItems) {
-        this.galleryItems = new MutableLiveData<>(galleryItems);
+    public QuizViewModel (MutableLiveData<List<PhotoEntry>> galleryItems) {
+        this.galleryItems = galleryItems;
         this.score = new MutableLiveData<>(0);
         this.totalAttempts = new MutableLiveData<>(0);
         this.index = new MutableLiveData<>(0);
@@ -46,6 +47,7 @@ public class QuizViewModel extends ViewModel {
     public PhotoEntry getQuestion(){
         if (index.getValue() < galleryItems.getValue().size()){
             PhotoEntry entry = galleryItems.getValue().get(index.getValue());
+            incrementIndex();
             return entry;
         }
         return null;
