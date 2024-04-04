@@ -14,19 +14,18 @@
 
     <ImageView
         android:id="@+id/imageView_quiz"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:layout_marginBottom="16dp"/>
+        android:adjustViewBounds="true" />
 
     <Button
         android:id="@+id/button_option1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageView_quiz"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="6dp"/>
 
     <Button
         android:id="@+id/button_option2"
