@@ -1,6 +1,7 @@
 package com.example.oblig3_dat153.quiz;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -71,13 +72,24 @@ public class QuizViewModel extends ViewModel {
         return returnValues;
     }
 
-    public void takeUserAnswer(String answer) {
+    public boolean takeUserAnswer(String answer) {
         int correctAnswerIndex = this.index.getValue() - 1;
 
         if(answer.equals(galleryItems.getValue().get(correctAnswerIndex).getName())) {
             incrementScore();
+            incrementTotalAttempts();
+            return true;
         }
 
         incrementTotalAttempts();
+        return false;
+    }
+
+    public Integer getScore() {
+        return score.getValue();
+    }
+
+    public Integer getTotalAttempts() {
+        return totalAttempts.getValue();
     }
 }

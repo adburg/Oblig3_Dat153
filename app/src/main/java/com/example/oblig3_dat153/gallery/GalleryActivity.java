@@ -45,7 +45,7 @@ public class GalleryActivity extends AppCompatActivity {
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "photo-entry").build();
         dao = db.photoDAO();
 
-         // populateDb();
+        populateDb();
 
         setupActivityResultLauncher();
         setupRecyclerViewAndAdapter();
@@ -59,7 +59,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     /* - - - - - - - - - - - - ImagePicker and saver - - - - - - - - - - - - - - - - - - - */
     private void openImagePicker() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent galleryIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryLauncher.launch(galleryIntent);
     }
 
@@ -86,10 +86,8 @@ public class GalleryActivity extends AppCompatActivity {
         });
 
         builder.setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel());
-
         builder.show();
     }
-
     /* - - - - - - - - - - - - OBSERVER - - - - - - - - - - - - - - - - - - - */
 
     private void observeAndUpdatePhotoEntries() {
@@ -101,7 +99,6 @@ public class GalleryActivity extends AppCompatActivity {
 
                 // Update the adapter's dataset
                 adapter.setGalleryItems(photoEntries);
-
             }
         });
     }
@@ -172,9 +169,9 @@ public class GalleryActivity extends AppCompatActivity {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                PhotoEntry entry1 = new PhotoEntry("Petter Pil", "https://plan-b.no/content/uploads/2021/06/Petter-P.jpg");
-                PhotoEntry entry2 = new PhotoEntry("Vendela <3", "https://www.dagbladet.no/images/79604169.jpg?imageId=79604169&panow=99.893674641148&panoh=22.612709265176&panox=0&panoy=22.044728434505&heightw=51.301588571429&heighth=55.218856060606&heightx=21.142857142857&heighty=17.424242424242&width=1200&height=1200");
-                PhotoEntry entry3 = new PhotoEntry("Osmaniiii", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTMxyu3_vCnw_7bTUn_Z0Ztdm7Mlg6fyeS_gyP4xM4Aw&s");
+                PhotoEntry entry1 = new PhotoEntry("Dennis", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant);
+                PhotoEntry entry2 = new PhotoEntry("Car", "android.resource://com.example.oblig3_dat153/" + R.drawable.bil);
+                PhotoEntry entry3 = new PhotoEntry("Bedroom", "android.resource://com.example.oblig3_dat153/" + R.drawable.bedroom);
 
                 dao.insert(entry1);
                 dao.insert(entry2);
