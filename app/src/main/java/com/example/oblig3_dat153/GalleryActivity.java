@@ -92,7 +92,7 @@ public class GalleryActivity extends AppCompatActivity {
         dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
             @Override
             public void onChanged(List<PhotoEntry> photoEntries) {
-                // Sets current changes to objec
+                // Sets current changes to object
                 galleryItems = photoEntries;
 
                 // Update the adapter's dataset
