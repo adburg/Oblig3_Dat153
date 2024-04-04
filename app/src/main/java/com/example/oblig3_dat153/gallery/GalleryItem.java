@@ -1,4 +1,4 @@
-package com.example.oblig3_dat153.ui.gallery;
+package com.example.oblig3_dat153.gallery;
 
 import androidx.fragment.app.Fragment;
 
