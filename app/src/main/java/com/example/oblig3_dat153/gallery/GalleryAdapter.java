@@ -71,7 +71,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
 
     @Override
     public int getItemCount() {
-        System.out.println("LIST IS " + galleryItems);
         return galleryItems.size();
     }
 }
