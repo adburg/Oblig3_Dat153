@@ -25,6 +25,7 @@ import com.example.oblig3_dat153.R;
 import com.example.oblig3_dat153.gallery.GalleryActivity;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -53,6 +54,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
             @Override
             public void onChanged(List<PhotoEntry> photoEntries) {
+                Collections.shuffle(photoEntries);
                 //dao.getAll().removeObserver(this);
                 viewModel = new QuizViewModel(new MutableLiveData<>(photoEntries));
                 setupHomeButton();
@@ -106,6 +108,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         scoreTextView.setText(scoreText);
     }
 
+    // Triggered by this
     @Override
     public void onClick(View v) {
         Button clickedButton = (Button) v;
@@ -129,6 +132,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Handle neutral button click
                 startActivity(new Intent(QuizActivity.this, MainActivity.class));
+                finish();
             }
         });
 

@@ -20,21 +20,12 @@ import java.util.List;
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
 
     private List<PhotoEntry> galleryItems;
-
-    // Fyller data inn i xml filen
     private LayoutInflater inflater;
-
-    // Lytter for eventer
     private OnItemClickListener listener;
 
-    // Interface for click events
+    // Interface for click events, used for creating a delete function in GalleryActivity
     public interface OnItemClickListener {
         void onDeleteClick(PhotoEntry image);
-    }
-
-    public void setGalleryItems(List<PhotoEntry> galleryItems) {
-        this.galleryItems = galleryItems;
-        notifyDataSetChanged(); // Notify any registered observers that the data set has changed.
     }
 
     public GalleryAdapter(Context context, List<PhotoEntry> galleryItems, OnItemClickListener listener) {
@@ -43,15 +34,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
        this.listener = listener;
     }
 
-    /**
-     * Denne metoden oppretter ViewHodleren og fyller den med data. Dette betyr at den fyller gallery item  emd data.
-     * Denne metoden kalles på hver gang RecyclerView trenger å opprette et nytt item.
-     * @param parent The ViewGroup into which the new View will be added after it is bound to
-     *               an adapter position.
-     * @param viewType The view type of the new View.
-     *
-     * @return
-     */
+    // Sets the PhotoEntries
+    public void setGalleryItems(List<PhotoEntry> galleryItems) {
+        this.galleryItems = galleryItems;
+        notifyDataSetChanged(); // Notify any registered observers that the data set has changed.
+    }
+
+    // Creates a single instance of a gallery item
     @NonNull
     @Override
     public GalleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,6 +48,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryViewHolder> {
         return new GalleryViewHolder(view);
     }
 
+    // Puts data in a single instance of a gallery item
+    // We use a third party library called Glide for inserting images
     @Override
     public void onBindViewHolder(@NonNull GalleryViewHolder holder, int position) {
         PhotoEntry imageEntry = galleryItems.get(position);

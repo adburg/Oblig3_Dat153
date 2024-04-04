@@ -32,8 +32,8 @@ import java.util.concurrent.Executors;
 public class GalleryActivity extends AppCompatActivity {
 
     private PhotoDAO dao;
-    private GalleryAdapter adapter;
-    private List<PhotoEntry> galleryItems;
+    private GalleryAdapter adapter; // adapter for feeding data to our gallery_item
+    private List<PhotoEntry> galleryItems; // List of all items in database
     private ActivityResultLauncher<Intent> galleryLauncher;
 
     @Override
@@ -65,12 +65,14 @@ public class GalleryActivity extends AppCompatActivity {
 
     public void insertPhotoEntry(String name, String uri) {
         PhotoEntry entry = new PhotoEntry(name, uri);
+        // Uses executor for handling the insert in another thread than the main
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             dao.insert(entry);
         });
     }
 
+    // Creates a Alert programmatically without xml file, and displays it
     private void showNameInputDialog(Uri imageUri) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Enter Image Name");
@@ -90,6 +92,8 @@ public class GalleryActivity extends AppCompatActivity {
     }
     /* - - - - - - - - - - - - OBSERVER - - - - - - - - - - - - - - - - - - - */
 
+    // Observes the database for updates, the onChange is triggered on updates,
+    // and we pass the updated data to our adapter
     private void observeAndUpdatePhotoEntries() {
         dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
             @Override
@@ -105,21 +109,23 @@ public class GalleryActivity extends AppCompatActivity {
 
     /* - - - - - - - - - - - - SETUP - - - - - - - - - - - - - - - - - - - */
 
+    // Sets up a handler for taking in images, check that the result is good, then it takes out image
     private void setupActivityResultLauncher() {
         galleryLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                        // Resultatet fra imagePicker
+                        // Result from imagePicker
                         Uri selectedImageUri = result.getData().getData();
 
-                        // Sender URI til input, for å hente navn til bilde
+                        // Sends the URI to the input, so we can add a name
                         showNameInputDialog(selectedImageUri);
                     }
                 }
         );
     }
 
+    // Gets the Recycler view from the Gallery XML file, creates and sets the adapter
     private void setupRecyclerViewAndAdapter() {
         RecyclerView recyclerView = findViewById(R.id.gallery_recycler_view);
         adapter = new GalleryAdapter(this, new ArrayList<>(), this::onDeleteItem);
@@ -127,16 +133,19 @@ public class GalleryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    // Sets up the exit button
     public void setupExitButton() {
         Button exitButton = findViewById(R.id.button_save_exit);
         exitButton.setOnClickListener(v -> startActivity(new Intent(GalleryActivity.this, MainActivity.class)));
     }
 
+    // Sets up the add button
     public void setupAddButton() {
         Button addButton = findViewById(R.id.button_add_entry);
         addButton.setOnClickListener(v -> openImagePicker());
     }
 
+    // Sets up the A-Z sorting
     public void setupAzSort() {
         Button az = findViewById(R.id.button_sort_az);
         az.setOnClickListener(v -> {
@@ -145,6 +154,7 @@ public class GalleryActivity extends AppCompatActivity {
         });
     }
 
+    // Sets up the Z-A sorting
     public void setupZaSort() {
         Button za = findViewById(R.id.button_sort_za);
         za.setOnClickListener(v -> {
@@ -155,6 +165,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     /* - - - - - - - - - - - - OnClick FUNCTIONS- - - - - - - - - - - - - - - - - - - */
 
+    // Deletes a PhotoEntry from our database
     private void onDeleteItem(PhotoEntry image) {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
