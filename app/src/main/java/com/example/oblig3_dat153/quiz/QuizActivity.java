@@ -62,7 +62,7 @@ public class QuizActivity extends AppCompatActivity {
         Button buttonTwo = findViewById(R.id.button_option1);
         Button buttonThree = findViewById(R.id.button_option1);
 
-        
+
     }
 
     /* - - - - - - - - - - - - ONLY TEST - - - - - - - - - - - - - - - - - - - */
