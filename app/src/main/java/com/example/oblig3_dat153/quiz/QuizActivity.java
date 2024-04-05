@@ -48,7 +48,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "photo-entry").build();
         dao = db.photoDAO();
 
-        populateDb();
+        checkAndPopulateDbIfNeeded();
     }
     public void populateQuizViewModel() {
         // Creates the ViewModel for handling state
@@ -98,12 +98,12 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             showFinishedDialog();
             return;
         }
-            imageView.setImageURI(Uri.parse(entry.getUrl()));
-            List<String> options = viewModel.getQuestionAlternatives();
+        imageView.setImageURI(Uri.parse(entry.getUrl()));
+        List<String> options = viewModel.getQuestionAlternatives();
 
-            for (int i = 0; i < optionButtons.length; i++) {
-                optionButtons[i].setText(options.get(i));
-            }
+        for (int i = 0; i < optionButtons.length; i++) {
+            optionButtons[i].setText(options.get(i));
+        }
     }
 
     private void updateScore() {
@@ -144,6 +144,19 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         builder.show();
+    }
+
+    private void checkAndPopulateDbIfNeeded() {
+        dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
+            @Override
+            public void onChanged(List<PhotoEntry> photoEntries) {
+                if (photoEntries.size() < 3) {
+                    populateDb(); // If less than three items, populate the database
+                } else {
+                    populateQuizViewModel(); // Otherwise, directly populate the quiz view model
+                }
+            }
+        });
     }
     private void populateDb() {
         final CountDownLatch latch = new CountDownLatch(1); // Initialize CountDownLatch

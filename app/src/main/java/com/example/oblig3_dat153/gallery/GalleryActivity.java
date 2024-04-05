@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -35,6 +36,8 @@ public class GalleryActivity extends AppCompatActivity {
     public GalleryAdapter adapter; // adapter for feeding data to our gallery_item
     private List<PhotoEntry> galleryItems; // List of all items in database
     private ActivityResultLauncher<Intent> galleryLauncher;
+
+    private boolean isDatabasePopulated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,10 @@ public class GalleryActivity extends AppCompatActivity {
         setupZaSort();
 
         observeAndUpdatePhotoEntries();
+
+        if (!isDatabasePopulated) {
+            checkAndPopulateDbIfNeeded();
+        }
     }
 
     /* - - - - - - - - - - - - ImagePicker and saver - - - - - - - - - - - - - - - - - - - */
@@ -170,4 +177,46 @@ public class GalleryActivity extends AppCompatActivity {
             dao.delete(image);
         });
     }
+
+    private void checkAndPopulateDbIfNeeded() {
+        dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
+            @Override
+            public void onChanged(List<PhotoEntry> photoEntries) {
+                if (!isDatabasePopulated && photoEntries.size() < 3) {
+                    populateDb(); // If less than three items, populate the database
+                }
+            }
+        });
+    }
+
+    private void populateDb() {
+        final CountDownLatch latch = new CountDownLatch(1); // Initialize CountDownLatch
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Your database operations to populate the database
+                // This is where you insert the entries into the database
+                // You can reuse the code you used in QuizActivity to populate the database
+                PhotoEntry entry1 = new PhotoEntry("Dennis", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant);
+                PhotoEntry entry2 = new PhotoEntry("Car", "android.resource://com.example.oblig3_dat153/" + R.drawable.bil);
+                PhotoEntry entry3 = new PhotoEntry("Bedroom", "android.resource://com.example.oblig3_dat153/" + R.drawable.bedroom);
+
+                dao.insert(entry1);
+                dao.insert(entry2);
+                dao.insert(entry3);
+
+                latch.countDown(); // Signal that database operations are complete
+            }
+        });
+
+        try {
+            latch.await(); // Wait for database operations to complete
+            isDatabasePopulated = true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

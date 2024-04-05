@@ -55,7 +55,7 @@ public class GalleryActivityTest {
     @Test
     public void addAndDeleteImageFromUI() {
         intentsTestRule.getActivity().runOnUiThread(() ->
-                intentsTestRule.getActivity().insertPhotoEntry("Dennis", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant)
+                intentsTestRule.getActivity().insertPhotoEntry("Test", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant)
         );
 
         // Wait a bit for the database operation to complete and UI to update.
@@ -66,14 +66,14 @@ public class GalleryActivityTest {
         }
 
         // Now perform the check
-        int expectedPosition = 0; // Adjust based on your app's behavior
+        int expectedPosition = 3; // Adjust based on your app's behavior
         onView(withId(R.id.gallery_recycler_view))
                 .perform(scrollToPosition(expectedPosition))
-                .check(matches(hasDescendant(withText("Dennis"))));
+                .check(matches(hasDescendant(withText("Test"))));
 
         // Hit delete button here:
         onView(withId(R.id.gallery_recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new ClickOnButtonViewAction(R.id.delete_button)));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3, new ClickOnButtonViewAction(R.id.delete_button)));
 
         // Wait a bit for the deletion to be processed and for the UI to update.
         try {
@@ -84,7 +84,7 @@ public class GalleryActivityTest {
 
         // Verify the entry "Dennis" has been deleted from the RecyclerView.
         onView(withId(R.id.gallery_recycler_view))
-                .check(matches(not(hasDescendant(withText("Dennis")))));
+                .check(matches(not(hasDescendant(withText("Test")))));
     }
 
     // PAPPPPPPPAAAAAA
