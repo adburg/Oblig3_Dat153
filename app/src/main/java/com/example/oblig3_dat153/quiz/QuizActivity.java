@@ -47,14 +47,16 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "photo-entry").build();
         dao = db.photoDAO();
 
+        populateDb();
         populateQuizViewModel();
+
     }
     public void populateQuizViewModel() {
         // Creates the ViewModel for handling state
         dao.getAll().observe(this, new Observer<List<PhotoEntry>>() {
             @Override
             public void onChanged(List<PhotoEntry> photoEntries) {
-                Collections.shuffle(photoEntries);
+                //Collections.shuffle(photoEntries);
                 //dao.getAll().removeObserver(this);
                 viewModel = new QuizViewModel(new MutableLiveData<>(photoEntries));
                 setupHomeButton();
@@ -137,5 +139,20 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         builder.show();
+    }
+    private void populateDb() {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                PhotoEntry entry1 = new PhotoEntry("Dennis", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant);
+                PhotoEntry entry2 = new PhotoEntry("Car", "android.resource://com.example.oblig3_dat153/" + R.drawable.bil);
+                PhotoEntry entry3 = new PhotoEntry("Bedroom", "android.resource://com.example.oblig3_dat153/" + R.drawable.bedroom);
+
+                dao.insert(entry1);
+                dao.insert(entry2);
+                dao.insert(entry3);
+            }
+        });
     }
 }
