@@ -1,10 +1,13 @@
 # Oblig3_Dat153
 
-## TODO
+## Test Results
 
-- [ ] Fikse Espresso tester
-- [ ] Fikse noen kjappe kommentarer
-- [ ] Fikse opp presentasjonen
+After running
 
-- [ ] Sette opp videre plan for de neste ukene
-- [ ] Støtte docs :)
+```sh
+/gradlew connectedAndroidTest
+```
+
+we got the following results
+
+<img src="./images/terminalResult.png" />
