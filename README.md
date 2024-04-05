@@ -20,7 +20,7 @@ yapp yapp
 
 ## Test Cases
 
-**MainActivityTest**
+**MainActivityTest** \n
 Tests that the button for navigating to GalleryActivity is triggered
 on click and that the Activity is launched.
 
