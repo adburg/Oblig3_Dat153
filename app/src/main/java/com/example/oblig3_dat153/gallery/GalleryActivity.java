@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
 public class GalleryActivity extends AppCompatActivity {
 
     private PhotoDAO dao;
-    private GalleryAdapter adapter; // adapter for feeding data to our gallery_item
+    public GalleryAdapter adapter; // adapter for feeding data to our gallery_item
     private List<PhotoEntry> galleryItems; // List of all items in database
     private ActivityResultLauncher<Intent> galleryLauncher;
 
@@ -44,8 +44,6 @@ public class GalleryActivity extends AppCompatActivity {
         // DB and dao instantiate
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "photo-entry").build();
         dao = db.photoDAO();
-
-        populateDb();
 
         setupActivityResultLauncher();
         setupRecyclerViewAndAdapter();
@@ -170,24 +168,6 @@ public class GalleryActivity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             dao.delete(image);
-        });
-    }
-
-    /* - - - - - - - - - - - - ONLY TEST - - - - - - - - - - - - - - - - - - - */
-
-    private void populateDb() {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                PhotoEntry entry1 = new PhotoEntry("Dennis", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant);
-                PhotoEntry entry2 = new PhotoEntry("Car", "android.resource://com.example.oblig3_dat153/" + R.drawable.bil);
-                PhotoEntry entry3 = new PhotoEntry("Bedroom", "android.resource://com.example.oblig3_dat153/" + R.drawable.bedroom);
-
-                dao.insert(entry1);
-                dao.insert(entry2);
-                dao.insert(entry3);
-            }
         });
     }
 }

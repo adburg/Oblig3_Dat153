@@ -27,6 +27,7 @@ import com.example.oblig3_dat153.gallery.GalleryActivity;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -48,8 +49,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         dao = db.photoDAO();
 
         populateDb();
-        populateQuizViewModel();
-
     }
     public void populateQuizViewModel() {
         // Creates the ViewModel for handling state
@@ -57,7 +56,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onChanged(List<PhotoEntry> photoEntries) {
                 //Collections.shuffle(photoEntries);
-                //dao.getAll().removeObserver(this);
                 viewModel = new QuizViewModel(new MutableLiveData<>(photoEntries));
                 setupHomeButton();
                 setupAlternativeButtons();
@@ -69,7 +67,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setupHomeButton() {
         Button homeButton = findViewById(R.id.button_home);
-        homeButton.setOnClickListener(v -> startActivity(new Intent(QuizActivity.this, MainActivity.class)));
+        homeButton.setOnClickListener(v -> {
+            startActivity(new Intent(QuizActivity.this, MainActivity.class));
+            finish();
+        });
     }
 
     public void setupScoreAndImageView(){
@@ -125,6 +126,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showFinishedDialog() {
+
+        if(viewModel.getTotalAttempts() == 0)
+            return;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations, you finished the quiz");
 
@@ -141,10 +146,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
     private void populateDb() {
+        final CountDownLatch latch = new CountDownLatch(1); // Initialize CountDownLatch
+
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                // Your database operations
                 PhotoEntry entry1 = new PhotoEntry("Dennis", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant);
                 PhotoEntry entry2 = new PhotoEntry("Car", "android.resource://com.example.oblig3_dat153/" + R.drawable.bil);
                 PhotoEntry entry3 = new PhotoEntry("Bedroom", "android.resource://com.example.oblig3_dat153/" + R.drawable.bedroom);
@@ -152,7 +160,21 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 dao.insert(entry1);
                 dao.insert(entry2);
                 dao.insert(entry3);
+
+                latch.countDown(); // Signal that database operations are complete
             }
         });
+
+        try {
+            latch.await(); // Wait for database operations to complete
+            runOnUiThread(new Runnable() { // Ensure UI operations are on the main thread
+                @Override
+                public void run() {
+                    populateQuizViewModel(); // Now safe to call
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
