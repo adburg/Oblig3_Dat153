@@ -14,7 +14,13 @@ we got the following results
 
 ### What happends after we run the command
 
-yapp yapp
+The command initiates a kind of process where your app and the test
+cases are compiled into separate APKs. This is being done do the emulator
+can run the test cases isolated in a way. So the APKs are installed on the
+emulator. The command also starts the execution of the tests that interact
+with the emulator and the app that was built. After command is finsihed
+testing and building we get back some output that tells us about the tests
+if they failed or was correct.
 
 <hr />
 
