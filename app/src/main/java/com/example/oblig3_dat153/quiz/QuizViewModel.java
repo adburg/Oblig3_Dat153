@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class QuizViewModel extends ViewModel {
         List<PhotoEntry> questions = this.galleryItems.getValue();
         int correctAnswerIndex = this.index.getValue() - 1;
 
-        Set<String> alternatives = new HashSet<>();
+        Set<String> alternatives = new LinkedHashSet<>();
         alternatives.add(questions.get(correctAnswerIndex).getName());
 
         while(alternatives.size() < 3) {
@@ -67,7 +68,7 @@ public class QuizViewModel extends ViewModel {
         }
 
         List<String> returnValues = new ArrayList<>(alternatives);
-        Collections.shuffle(returnValues);
+        //Collections.shuffle(returnValues);
 
         return returnValues;
     }
