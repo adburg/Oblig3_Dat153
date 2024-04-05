@@ -20,8 +20,8 @@ yapp yapp
 
 ## Test Cases
 
-**MainActivityTest** \n
-Tests that the button for navigating to GalleryActivity is triggered
+**MainActivityTest**
+tests that the button for navigating to GalleryActivity is triggered
 on click and that the Activity is launched.
 
 <img src="./images/MainActivityTest.png" />
@@ -29,7 +29,7 @@ on click and that the Activity is launched.
 <br />
 
 **GalleryActivityTest**
-Tests adding a image, validating that the image is added to the UI,
+tests adding a image, validating that the image is added to the UI,
 then deletes it and validates the UI again.
 
 <img src="./images/GalleryActivityTest.png" />
@@ -37,7 +37,7 @@ then deletes it and validates the UI again.
 <br />
 
 **QuizActivityTest**
-Tests that clicking on a button gives the correct score by matching
+tests that clicking on a button gives the correct score by matching
 the score on the screen.
 
 <img src="./images/QuizActivityTest.png" />
