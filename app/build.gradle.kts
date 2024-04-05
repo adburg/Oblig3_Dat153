@@ -73,4 +73,13 @@ dependencies {
 
     // Glide import
     implementation("com.github.bumptech.glide:glide:4.12.0")
+
+    // JUnit
+    testImplementation("junit:junit:4.13.2")
+
+    // Espresso dependencies
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
+
 }
