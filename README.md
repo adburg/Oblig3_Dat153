@@ -42,23 +42,28 @@ The APK files that we observed being installed upon running the tests were:
 ## Test Cases
 
 **MainActivityTest**
-tests that the button for navigating to GalleryActivity is triggered
-on click and that the Activity is launched.
+- Tests that the main activity renders. Tests that hitting the button with the label Gallery, launches the GalleryActivity.
+- Expected result: The application hits the button "Gallery" and launches a new Activity.
+- The test is implemented in MainActivityTest.java
 
 <img src="./images/MainActivityTest.png" />
 
 <br />
 
 **GalleryActivityTest**
-tests adding a image, validating that the image is added to the UI,
-then deletes it and validates the UI again.
+- The test launches the GalleryActivity, then tries to upload an image with our imagepicker by using a intent stub. Then the test will try to get this item from the UI, validating that the image was added.
+- Further, the test will delete the image the test just added, and then validate that the image is removed from the UI.
+- We manually add the name for the image in the test, because espresso needs more implementation for accessing alerts.
+- Expected result: The application adds a new image entry, and then deletes it successfully.
+- The test is implemented in GalleryActivityTest.java
 
 <img src="./images/GalleryActivityTest.png" />
 
 <br />
 
 **QuizActivityTest**
-tests that clicking on a button gives the correct score by matching
-the score on the screen.
+- The test launches the QuizActivity, then submits the correct answer to the first quiestion in the quiz. Then validates that the score was updated correctly by pattern matching the score in our toast message. After this, it submits a wrong answer and validates the score again.
+- Expected result: The application starts a quiz, then submits a correct answer then a wrong one, and the score is updated accordingly. 
+- The test is implemented in QuizActivityTets.java
 
 <img src="./images/QuizActivityTest.png" />
