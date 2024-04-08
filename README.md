@@ -21,6 +21,21 @@ emulator. The command also starts the execution of the tests that interact
 with the emulator and the app that was built. After command is finsihed
 testing and building we get back some output that tells us about the tests
 if they failed or was correct.
+The APK files that we observed being installed upon running the tests were:
+ - app-debug.apk
+     - This file contains a source and a resource folder. Both of these folders
+       has a lot of folders inside them, and it seems to be files and folders related
+       to the setup and the environment for the project, in the form of decompiled
+       Java code. It also contains all the XML resources for the project, including
+       layouts, manifest, images, strings etc.  
+ - app-debug-androidTest.apk
+     - This file contains a folder of resources, which has the manifest file, three
+       .dex files and also some other xml contents. The file also contains a folder
+       called sources, which contains a lot of files for the testing environment,
+       including annotations, intents, JUnit an so on. In addition to this, it contains
+       The classes for the activites that are used in the tests, in the form of decompiled
+       Java code.
+
 
 <hr />
 
