@@ -2,6 +2,8 @@ package com.example.oblig3_dat153;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -9,6 +11,7 @@ import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagKey;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
@@ -54,9 +57,8 @@ public class GalleryActivityTest {
 
     @Test
     public void addAndDeleteImageFromUI() {
-        intentsTestRule.getActivity().runOnUiThread(() ->
-                intentsTestRule.getActivity().insertPhotoEntry("Test", "android.resource://com.example.oblig3_dat153/" + R.drawable.elefant)
-        );
+
+        onView(withId(R.id.button_add_entry)).perform(click());
 
         // Wait a bit for the database operation to complete and UI to update.
         try {
@@ -64,6 +66,9 @@ public class GalleryActivityTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        onView(withTagKey(1)).perform(typeText("Test"), closeSoftKeyboard());
+        onView(withText("OK")).perform(click());
 
         // Now perform the check
         int expectedPosition = 3; // Adjust based on your app's behavior
@@ -87,7 +92,7 @@ public class GalleryActivityTest {
                 .check(matches(not(hasDescendant(withText("Test")))));
     }
 
-    // PAPPPPPPPAAAAAA
+
     public static class ClickOnButtonViewAction implements ViewAction {
         private final int buttonId;
 

@@ -5,13 +5,13 @@
       <entry key="GalleryActivityTest">
         <State />
       </entry>
-      <entry key="MainActivityTest">
-        <State />
-      </entry>
       <entry key="QuizActivityTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testCorrectAnswer()">
         <State />
       </entry>
     </value>

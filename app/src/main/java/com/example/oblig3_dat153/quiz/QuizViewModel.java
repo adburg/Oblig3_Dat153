@@ -11,6 +11,7 @@ import androidx.room.Room;
 import com.example.oblig3_dat153.AppDatabase;
 import com.example.oblig3_dat153.PhotoDAO;
 import com.example.oblig3_dat153.PhotoEntry;
+import com.example.oblig3_dat153.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +56,13 @@ public class QuizViewModel extends ViewModel {
         return null;
     }
 
+    public String getCorrectAnswer() {
+        List<PhotoEntry> questions = this.galleryItems.getValue();
+        int correctAnswerIndex = this.index.getValue() - 1;
+
+        return questions.get(correctAnswerIndex).getName();
+    }
+
     public List<String> getQuestionAlternatives() {
         List<PhotoEntry> questions = this.galleryItems.getValue();
         int correctAnswerIndex = this.index.getValue() - 1;
@@ -68,7 +76,7 @@ public class QuizViewModel extends ViewModel {
         }
 
         List<String> returnValues = new ArrayList<>(alternatives);
-        //Collections.shuffle(returnValues);
+        Collections.shuffle(returnValues);
 
         return returnValues;
     }
@@ -93,4 +101,5 @@ public class QuizViewModel extends ViewModel {
     public Integer getTotalAttempts() {
         return totalAttempts.getValue();
     }
+
 }

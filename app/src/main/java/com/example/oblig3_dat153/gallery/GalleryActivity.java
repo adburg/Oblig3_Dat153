@@ -83,6 +83,7 @@ public class GalleryActivity extends AppCompatActivity {
         builder.setTitle("Enter Image Name");
 
         final EditText input = new EditText(this);
+        input.setTag(1, "Knapp");
         builder.setView(input);
 
         builder.setPositiveButton("OK", (dialogInterface, i) -> {

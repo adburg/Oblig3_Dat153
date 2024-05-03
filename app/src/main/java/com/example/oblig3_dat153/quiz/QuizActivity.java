@@ -25,6 +25,7 @@ import com.example.oblig3_dat153.R;
 import com.example.oblig3_dat153.gallery.GalleryActivity;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -49,6 +50,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         dao = db.photoDAO();
 
         checkAndPopulateDbIfNeeded();
+
     }
     public void populateQuizViewModel() {
         // Creates the ViewModel for handling state
@@ -94,7 +96,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         PhotoEntry entry = viewModel.getQuestion();
         //if quiz is finished
         if(entry == null){
-            System.out.println("MORDI ER NULL");
             showFinishedDialog();
             return;
         }
@@ -189,5 +190,19 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public QuizViewModel getViewModel() {
+        return viewModel;
+    }
+
+    public List<String> getButtonValues() {
+        List<String> values = new ArrayList<>();
+
+        for (Button button : optionButtons) {
+            values.add(button.getText().toString());
+        }
+
+        return values;
     }
 }
